@@ -1,0 +1,17 @@
+application: pygooglemaps
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: no
+handlers:
+- url: /js
+  static_dir: js
+- url: /.*
+  script: googlemaps.py
+libraries:
+- name: PIL
+  version: latest
+- name: webob
+  version: latest
+- name: jinja2
+  version: 2.6

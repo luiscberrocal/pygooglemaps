@@ -31,10 +31,21 @@
             	
             }, 1000);
           });
+        google.maps.event.addListener(map, 'bounds_changed', function() {
+            // 3 seconds after the center of the map has changed, pan back to the
+            // marker.
+            window.setTimeout(function() {
+            	$("#map_center").text(map.getCenter());
+            	$("#map_zoom").text(map.getZoom());
+            	
+            }, 1000);
+          });
         google.maps.event.addListener(map, 'click', function(event) {
             placeMarker(event.latLng);
           });
-                
+        $("#map_center").text(map.getCenter());
+    	$("#map_zoom").text(map.getZoom());
+      }   
         function placeMarker(location) {
       	  var marker = new google.maps.Marker({
       	      position: location,
@@ -42,7 +53,7 @@
       	  });
       }
                 
-      }
+ 
       //$(document).ready(function() {
       //    $("#map_center").text("JQuery loaded")
       //}
@@ -55,6 +66,17 @@
 	<div id="map_info">
 			Center: <span id="map_center">Center</span> <br/>
 			Zoom: <span id="map_zoom">Zoom</span> <br/>
+			<form action="save_location" method="post">
+				<label for="name">Name:</label>
+				<input id="name" type="text">
+				<label for="latitude">Name:</label>
+				<input id="latitude" type="text">
+				<label for="longitude">Name:</label>
+				<input id="longitude" type="text">
+				<label for="zoom">Name:</label>
+				<input id="zoom" type="text">
+				<div><input type="submit" value="Save Location"></div>
+			</form>
 	</div>
 </body>
 </html>

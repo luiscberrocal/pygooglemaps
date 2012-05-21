@@ -13,7 +13,8 @@
 
 <script type="text/javascript">
     function updateFormDate(map){
-    	$("#map_center").text(map.getCenter());
+    	$("#latitude").attr("value",map.getCenter().lat());
+    	$("#longitude").attr("value",map.getCenter().lng());
     	$("#zoom").attr("value", map.getZoom());
      }
       function initialize() {

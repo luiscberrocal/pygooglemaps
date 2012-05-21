@@ -1,11 +1,13 @@
 application: glocations507
-version: 1
+version: 2
 runtime: python27
-api_version: 1.0.1
+api_version: 1
 threadsafe: no
 handlers:
 - url: /js
   static_dir: js
+- url: /css
+  static_dir: css
 - url: /.*
   script: googlemaps.py
 libraries:

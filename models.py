@@ -9,3 +9,6 @@ class Locations(db.Model):
     latitude = db.IntegerProperty()
     longitude = db.IntegerProperty()
     name = db.StringProperty()
+    zoom = db.IntegerProperty()
+    date = db.DateTimeProperty(auto_now_add=True)
+    

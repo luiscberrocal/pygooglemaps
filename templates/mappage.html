@@ -2,24 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<style type="text/css">
-html {
-	height: 100%
-}
-
-body {
-	height: 100%;
-	margin: 0;
-	padding: 0
-}
-
-#map_canvas {
-	height: 100%
-}
-</style>
-<script type="text/javascript"
-	src="/js/google_maps_key.js">
-    </script>
+<link rel="stylesheet" type="text/css" href="/css/mappage.css">
 <script type="text/javascript"
 	src="http://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&sensor=false">
     </script>
@@ -44,7 +27,9 @@ body {
             // marker.
             window.setTimeout(function() {
             	$("#map_center").text(map.getCenter());
-            }, 3000);
+            	$("#map_zoom").text(map.getZoom());
+            	
+            }, 1000);
           });
         google.maps.event.addListener(map, 'click', function(event) {
             placeMarker(event.latLng);
@@ -65,8 +50,11 @@ body {
     </script>
 </head>
 <body onload="initialize()">
-<h1>{{ title }}</h1>
-<div id="map_canvas" style="width: 750px; height: 500px"></div>
-<div id="map_center">Hola!!</div>
+	<h1>{{ title }}</h1>
+	<div id="map_canvas" ></div>
+	<div id="map_info">
+			Center: <span id="map_center">Center</span> <br/>
+			Zoom: <span id="map_zoom">Zoom</span> <br/>
+	</div>
 </body>
 </html>

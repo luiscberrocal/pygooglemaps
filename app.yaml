@@ -1,7 +1,7 @@
-application: pygooglemaps
+application: glocations507
 version: 1
 runtime: python27
-api_version: 1
+api_version: 1.0.1
 threadsafe: no
 handlers:
 - url: /js

@@ -19,3 +19,6 @@ body {
 	padding: .5em;
 	
 }
+label.loc-labels{
+	width: 10em;
+}

@@ -12,7 +12,10 @@
     </script>
 
 <script type="text/javascript">
-    
+    function updateFormDate(map){
+    	$("#map_center").text(map.getCenter());
+    	$("#zoom").attr("value", map.getZoom());
+     }
       function initialize() {
         var myOptions = {
           center: new google.maps.LatLng(8.9, -80.2),
@@ -21,13 +24,12 @@
         };
         var map = new google.maps.Map(document.getElementById("map_canvas"),
             myOptions);
-        $("#map_center").text("JQuery loaded Google Map Tutorial 2");
+      
         google.maps.event.addListener(map, 'center_changed', function() {
             // 3 seconds after the center of the map has changed, pan back to the
             // marker.
             window.setTimeout(function() {
-            	$("#map_center").text(map.getCenter());
-            	$("#map_zoom").text(map.getZoom());
+            	updateFormDate(map)
             	
             }, 1000);
           });
@@ -35,16 +37,14 @@
             // 3 seconds after the center of the map has changed, pan back to the
             // marker.
             window.setTimeout(function() {
-            	$("#map_center").text(map.getCenter());
-            	$("#map_zoom").text(map.getZoom());
+            	updateFormDate(map)
             	
             }, 1000);
           });
         google.maps.event.addListener(map, 'click', function(event) {
             placeMarker(event.latLng);
           });
-        $("#map_center").text(map.getCenter());
-    	$("#map_zoom").text(map.getZoom());
+        updateFormDate(map)
       }   
         function placeMarker(location) {
       	  var marker = new google.maps.Marker({
@@ -67,14 +67,14 @@
 			Center: <span id="map_center">Center</span> <br/>
 			Zoom: <span id="map_zoom">Zoom</span> <br/>
 			<form action="save_location" method="post">
-				<label for="name">Name:</label>
-				<input id="name" type="text">
-				<label for="latitude">Name:</label>
-				<input id="latitude" type="text">
-				<label for="longitude">Name:</label>
-				<input id="longitude" type="text">
-				<label for="zoom">Name:</label>
-				<input id="zoom" type="text">
+				<label for="name" class="loc-labels">Name:</label>
+				<input id="name" type="text"><br/>
+				<label for="latitude" class="loc-labels">Latitude:</label>
+				<input id="latitude" type="text"><br/>
+				<label for="longitude" class="loc-labels">Longitude:</label>
+				<input id="longitude" type="text"><br/>
+				<label for="zoom" class="loc-labels">Zoom:</label>
+				<input id="zoom" type="text"><br/>
 				<div><input type="submit" value="Save Location"></div>
 			</form>
 	</div>

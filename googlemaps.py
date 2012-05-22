@@ -4,6 +4,9 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.api import users
 import jinja2
 import os, settings
+import datetime
+import json
+from models import Location
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), "templates")))
@@ -23,7 +26,35 @@ class MainPage(webapp2.RequestHandler):
             #self.response.out.write('Hello, Stranger' )
             self.redirect(users.create_login_url(self.request.uri))
 
-app = webapp2.WSGIApplication([('/', MainPage)],
+class LocationAdmin(webapp2.RequestHandler):
+    def post(self):
+        locdata = {
+            'owner': users.get_current_user(),
+            'name' : self.request.get('name'),
+            'latitude' : float(self.request.get('latitude')),
+            'longitude' : float(self.request.get('longitude')),
+            'zoom' : int(self.request.get('zoom'))
+        }
+        print locdata
+        location = Location(owner = locdata['owner'])
+        location.name = locdata['name']
+        location.latitude = locdata['latitude']
+        location.longitude = locdata['longitude']
+        location.zoom = locdata['zoom']
+        
+        location.put()
+        locdata['id'] =  451 #location.id
+        locdata['date'] = location.date
+        
+        #now= datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                
+        #json_data = {"status" : "Saved", 'date' : now}
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.out.write(json.dumps(locdata))
+        
+        
+app = webapp2.WSGIApplication([('/', MainPage),
+                               ('/add-location.html', LocationAdmin)],
                               debug=True)
 
 def main():

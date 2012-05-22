@@ -55,9 +55,25 @@
       }
                 
  
-      //$(document).ready(function() {
-      //    $("#map_center").text("JQuery loaded")
-      //}
+      $(document).ready(function() {
+          $("#location-form").submit(function(e){
+              e.preventDefault();
+              var  dataString = $(this).serialize();
+              $("#debug-output").text(dataString);
+              $.ajax({
+                  type: "POST",
+                  url: "/add-location.html",
+                  dataType: "json",
+                  data: dataString,
+                  success: function(data){
+                  		alert("Saved " + data.date + " id: " + data.id);
+              		},
+              	 error: function(jqXHR, textStatus, errorThrown){
+                     	 alert("Error: " +  errorThrown +"\nTextStatus: " + textStatus)
+              		}
+              });
+          });
+      });
      
     </script>
 </head>
@@ -67,17 +83,21 @@
 	<div id="map_info">
 			Center: <span id="map_center">Center</span> <br/>
 			Zoom: <span id="map_zoom">Zoom</span> <br/>
-			<form action="save_location" method="post">
+			<form id="location-form">
 				<label for="name" class="loc-labels">Name:</label>
-				<input id="name" type="text"><br/>
-				<label for="latitude" class="loc-labels">Latitude:</label>
-				<input id="latitude" type="text"><br/>
+				<input id="name" name="name" type="text"><br/>
+				<label for="latitude"  class="loc-labels">Latitude:</label>
+				<input id="latitude" name="latitude" type="text"><br/>
 				<label for="longitude" class="loc-labels">Longitude:</label>
-				<input id="longitude" type="text"><br/>
+				<input id="longitude" name="longitude" type="text"><br/>
 				<label for="zoom" class="loc-labels">Zoom:</label>
-				<input id="zoom" type="text"><br/>
+				<input id="zoom"  name="zoom" type="text"><br/>
 				<div><input type="submit" value="Save Location"></div>
 			</form>
+	</div>
+	<div id="debug-window">
+		<div>Debug Windows</div>
+		<div id="debug-output"></div>
 	</div>
 </body>
 </html>

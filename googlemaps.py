@@ -18,7 +18,8 @@ class MainPage(webapp2.RequestHandler):
         if user:
             template = jinja_environment.get_template('mappage.html')
             data = {"title" : "Mi Nuevo Titulo " + user.nickname(), 
-                    "GOOGLE_MAPS_KEY" : settings.GOOGLE_MAPS_KEY}
+                    "GOOGLE_MAPS_KEY" : settings.GOOGLE_MAPS_KEY,
+                    "username" : user.nickname()}
             self.response.out.write(template.render(data))
             #self.response.headers['Content-Type'] = 'text/plain'
             #self.response.out.write('Hello, ' + user.nickname())
@@ -29,14 +30,14 @@ class MainPage(webapp2.RequestHandler):
 class LocationAdmin(webapp2.RequestHandler):
     def post(self):
         locdata = {
-            'owner': users.get_current_user(),
+            'owner': users.get_current_user().nickname(),
             'name' : self.request.get('name'),
             'latitude' : float(self.request.get('latitude')),
             'longitude' : float(self.request.get('longitude')),
             'zoom' : int(self.request.get('zoom'))
         }
         print locdata
-        location = Location(owner = locdata['owner'])
+        location = Location(owner = users.get_current_user())
         location.name = locdata['name']
         location.latitude = locdata['latitude']
         location.longitude = locdata['longitude']
@@ -44,7 +45,7 @@ class LocationAdmin(webapp2.RequestHandler):
         
         location.put()
         locdata['id'] =  451 #location.id
-        locdata['date'] = location.date
+        locdata['date'] = location.date.strftime('%Y-%m-%d %H:%M:%S')
         
         #now= datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 

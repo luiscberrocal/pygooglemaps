@@ -54,7 +54,12 @@
       	  });
       }
                 
- 
+ 	  function loadLocations(data){
+ 	 	  $('#saved-locations').empty()
+ 	 	  for (var i=0; i< data.length;i++){
+ 	 		$('#saved-locations').append("<div>"+ data[i].name +"</div>")	  
+ 	 	  }
+ 	  }
       $(document).ready(function() {
           $("#location-form").submit(function(e){
               e.preventDefault();
@@ -73,6 +78,12 @@
               		}
               });
           });
+          $.ajax({
+              type: "GET",
+              url: "/list-locations.json",
+              dataType: "json",
+              success: loadLocations
+                  });
       });
      
     </script>

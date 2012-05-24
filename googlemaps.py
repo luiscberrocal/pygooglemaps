@@ -31,13 +31,23 @@ class MainPage(webapp2.RequestHandler):
 
 class ListLocations(webapp2.RequestHandler):
     def get(self):
-        query = db.GqlQuery('SELECT * FROM Location WHERE owner = :owner', owner = users.get_current_user().nickname())
-        locations = query.fetch(50)
-        mlocs = []
-        for loc in locations:
-            mlocs.append({'date': loc.date,
-                          'name': loc.name})
-        json = simplejson.dumps(mlocs)
+        
+        #query = db.GqlQuery('SELECT * FROM Location WHERE owner = :owner', owner = users.get_current_user().nickname())
+        user = users.get_current_user()
+        if user:
+            query = db.GqlQuery('SELECT * FROM Location WHERE owner = :owner', owner = user)
+            locations = query.fetch(50)
+            mlocs = []
+            for loc in locations:
+                mlocs.append({'date': loc.date.strftime('%Y-%m-%d %H:%M:%S'),
+                              'name': loc.name, 
+                              'latitude' : loc.latitude,
+                              'longitude' :loc.longitude,
+                              'zoom' :loc.zoom,
+                              'owner' : loc.owner.nickname()})
+            json = simplejson.dumps(mlocs)
+        else:
+            raise Exception('NO User')
         self.response.write(json)
         
 class LocationAdmin(webapp2.RequestHandler):
@@ -69,7 +79,7 @@ class LocationAdmin(webapp2.RequestHandler):
         
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/add-location.html', LocationAdmin),
-                               ('/list-locations.html', ListLocations)],
+                               ('/list-locations.json', ListLocations)],
                               debug=True)
 
 def main():

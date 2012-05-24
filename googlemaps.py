@@ -7,7 +7,9 @@ import os, settings
 import datetime
 import json
 from models import Location
-
+from google.appengine.ext import db
+from django.utils import simplejson
+  
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), "templates")))
     
@@ -27,6 +29,17 @@ class MainPage(webapp2.RequestHandler):
             #self.response.out.write('Hello, Stranger' )
             self.redirect(users.create_login_url(self.request.uri))
 
+class ListLocations(webapp2.RequestHandler):
+    def get(self):
+        query = db.GqlQuery('SELECT * FROM Location WHERE owner = :owner', owner = users.get_current_user().nickname())
+        locations = query.fetch(50)
+        mlocs = []
+        for loc in locations:
+            mlocs.append({'date': loc.date,
+                          'name': loc.name})
+        json = simplejson.dumps(mlocs)
+        self.response.write(json)
+        
 class LocationAdmin(webapp2.RequestHandler):
     def post(self):
         locdata = {
@@ -36,7 +49,7 @@ class LocationAdmin(webapp2.RequestHandler):
             'longitude' : float(self.request.get('longitude')),
             'zoom' : int(self.request.get('zoom'))
         }
-        print locdata
+        #print locdata
         location = Location(owner = users.get_current_user())
         location.name = locdata['name']
         location.latitude = locdata['latitude']
@@ -55,7 +68,8 @@ class LocationAdmin(webapp2.RequestHandler):
         
         
 app = webapp2.WSGIApplication([('/', MainPage),
-                               ('/add-location.html', LocationAdmin)],
+                               ('/add-location.html', LocationAdmin),
+                               ('/list-locations.html', ListLocations)],
                               debug=True)
 
 def main():

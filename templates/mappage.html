@@ -10,6 +10,7 @@
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
     </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 
 <script type="text/javascript">
     function updateFormDate(map){
@@ -57,7 +58,18 @@
  	  function loadLocations(data){
  	 	  $('#saved-locations').empty()
  	 	  for (var i=0; i< data.length;i++){
- 	 		$('#saved-locations').append("<div>"+ data[i].name +"</div>")	  
+ 	 	 	  locationDiv = $('<div/>',{'class': 'location'});
+ 	 	 	  locationNameDiv =  $('<div/>',{'class': 'location-name'});
+ 	 	 	  locationNameDiv.text(data[i].name);
+ 	 	 	  locationDiv.append(locationNameDiv)
+ 	 	 	  zoomButton = $('<button/>',{'class': 'zoom'});
+ 	 	 	  zoomButton.text('Zoom')
+ 	 	 	  zoomButton.click(function(){
+ 	 	 	 	  alert(data[i].name);
+ 	 	 	 	  });
+ 	 	 	  locationDiv.append(locationNameDiv)
+ 	 	 	  locationDiv.append(zoomButton)
+ 	 		$('#saved-locations').append(locationDiv)	  
  	 	  }
  	  }
       $(document).ready(function() {

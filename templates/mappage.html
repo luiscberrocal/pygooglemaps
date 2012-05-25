@@ -10,9 +10,10 @@
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
     </script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 
 <script type="text/javascript">
+	var map;
     function updateFormDate(map){
     	$("#latitude").attr("value",map.getCenter().lat());
     	$("#longitude").attr("value",map.getCenter().lng());
@@ -24,7 +25,7 @@
           zoom: 8,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map(document.getElementById("map_canvas"),
+        map = new google.maps.Map(document.getElementById("map_canvas"),
             myOptions);
       
         google.maps.event.addListener(map, 'center_changed', function() {
@@ -54,7 +55,13 @@
       	      map: map
       	  });
       }
-                
+        function zoomToLocation(event){
+            //alert(event.data.name);
+            center = new google.maps.LatLng(event.data.latitude, event.data.longitude)
+            map.setCenter(center);
+            map.setZoom(event.data.zoom);
+            
+        }                
  	  function loadLocations(data){
  	 	  $('#saved-locations').empty()
  	 	  for (var i=0; i< data.length;i++){
@@ -63,12 +70,15 @@
  	 	 	  locationNameDiv.text(data[i].name);
  	 	 	  locationDiv.append(locationNameDiv)
  	 	 	  zoomButton = $('<button/>',{'class': 'zoom'});
- 	 	 	  zoomButton.text('Zoom')
- 	 	 	  zoomButton.click(function(){
- 	 	 	 	  alert(data[i].name);
- 	 	 	 	  });
- 	 	 	  locationDiv.append(locationNameDiv)
- 	 	 	  locationDiv.append(zoomButton)
+ 	 	 	  zoomButton.text('Zoom');
+ 	 	 	  zoomButton.bind('click',{
+ 	 	 	 	  				name : data[i].name,
+ 	 	 	 	  				latitude : data[i].latitude,
+ 	 	 	 	  				longitude : data[i].longitude,
+ 	 	 	 	  				zoom : data[i].zoom},
+ 	 	 	 	  				zoomToLocation);
+ 	 	 	  locationDiv.append(locationNameDiv);
+ 	 	 	  locationDiv.append(zoomButton);
  	 		$('#saved-locations').append(locationDiv)	  
  	 	  }
  	  }

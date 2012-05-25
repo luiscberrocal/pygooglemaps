@@ -39,7 +39,8 @@ class ListLocations(webapp2.RequestHandler):
             locations = query.fetch(50)
             mlocs = []
             for loc in locations:
-                mlocs.append({'date': loc.date.strftime('%Y-%m-%d %H:%M:%S'),
+                mlocs.append({'id' : loc.key().id(),
+                              'date': loc.date.strftime('%Y-%m-%d %H:%M:%S'),
                               'name': loc.name, 
                               'latitude' : loc.latitude,
                               'longitude' :loc.longitude,

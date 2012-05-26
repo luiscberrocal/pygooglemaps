@@ -9,7 +9,6 @@
 	$("#zoom").attr("value",map.getZoom());
 	}
 	function initialize() {
-		console.log("Map Initialize");
 	var myOptions= {
 	center:new google.maps.LatLng(8.9,-80.2),zoom:8,mapTypeId:google.maps.MapTypeId.ROADMAP
 	};
@@ -39,8 +38,7 @@
 	});
 	}
 	$(document).ready(function() {
-	console.log("JQUERY Init");
-	initialize();
+	
 	$("#location-form").submit(function(e) {
 	e.preventDefault();
 	var dataString=$(this).serialize();
@@ -59,7 +57,43 @@
 	});
 </script>
 {% endblock %}
+{% block tools %}
+<div id="map_info">
+	Center: <span id="map_center">Center</span>
+	<br/>
+	Zoom: <span id="map_zoom">Zoom</span>
+	<br/>
+	<form id="location-form">
+		<label for="name" class="loc-labels">Name:</label>
+		<input id="name" name="name" type="text">
+		<br/>
+		<label for="latitude"  class="loc-labels">Latitude:</label>
+		<input id="latitude" name="latitude" type="text">
+		<br/>
+		<label for="longitude" class="loc-labels">Longitude:</label>
+		<input id="longitude" name="longitude" type="text">
+		<br/>
+		<label for="zoom" class="loc-labels">Zoom:</label>
+		<input id="zoom"  name="zoom" type="text">
+		<br/>
+		<div>
+			<input type="submit" value="Save Location">
+		</div>
+	</form>
+</div>
+<div id="saved-locations">
+	<div class="title">
+		Locations for {{ username }}
+	</div>
+</div>
+<div id="debug-window">
+	<div>
+		Debug Windows
+	</div>
+	<div id="debug-output"></div>
+</div>
 
+{% endblock %}
 {% block map %}
 <div id="map-canvas" ></div>
 {% endblock %}

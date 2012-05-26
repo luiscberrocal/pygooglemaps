@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Insert title here</title>
+		<link rel="stylesheet" type="text/css" href="/css/mappage.css">
+		<script type="text/javascript"
+		src="http://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&sensor=false"></script>
+
+		<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+		<script src="/js/jquery-locations.js" type="text/javascript" charset="utf-8"></script>
+		{% block head %}
+		    
+		{% endblock %}
+	</head>
+	<body onload="initialize()">
+		<div id="header-pane">
+			<div id="title">
+				GeoLocations 507
+			</div>
+			<div id="user-info">
+				<div id="username">
+				  {{ username }}
+				</div>
+			</div>
+		</div>
+		<div id="tools-pane">
+		  {% block tools %}
+		  {% endblock %}
+		</div>
+		<div id="map-pane">
+		  {% block map %}		      
+		  {% endblock %}
+		</div>
+		<div id="footer-pane">
+		  Copyright
+		</div>
+	</body>
+</html>

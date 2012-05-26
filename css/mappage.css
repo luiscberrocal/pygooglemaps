@@ -8,12 +8,13 @@ body {
 	padding: 0
 }
 
-#map_canvas {
+#map-canvas {
 	width: 750px;
 	height: 500px;
 	border: thin;
-	float: left;
+	/*float: left;*/
 }
+/*
 #map_info {
 	padding: .5em;
 }
@@ -34,4 +35,4 @@ label.loc-labels {
 	border: thin solid blue;
 	margin: 1px;
 	padding: 3px;
-}
+}*/

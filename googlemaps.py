@@ -18,7 +18,7 @@ class MainPage(webapp2.RequestHandler):
         user = users.get_current_user()
 
         if user:
-            template = jinja_environment.get_template('mappage.html')
+            template = jinja_environment.get_template('map-layout.html')
             data = {"title" : "Mi Nuevo Titulo " + user.nickname(), 
                     "GOOGLE_MAPS_KEY" : settings.GOOGLE_MAPS_KEY,
                     "username" : user.nickname()}

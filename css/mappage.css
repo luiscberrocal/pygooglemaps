@@ -22,3 +22,14 @@ body {
 label.loc-labels{
 	width: 10em;
 }
+#saved-locations{
+	width: 202px;
+	float: left;
+	}
+.location{
+	width: 200px;
+	float: left;
+	border:thin solid blue;
+	margin: 1px;
+	padding: 3px;
+}

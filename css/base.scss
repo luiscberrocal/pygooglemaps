@@ -1,0 +1,46 @@
+
+$base-width :1024px;
+$base-height:  768px;
+$tp-width: 240px;
+html {
+  height: 100%
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, "MS Trebuchet", sans-serif;
+  font-size: 10px;
+}
+#header-pane {
+  width: $base-width;
+  height: 60px;
+  #title{
+    font-size: 2em;
+  }
+  #user-info{
+    float: right;
+  }
+}
+
+#tools-pane {
+  width: $tp-width;
+  height: 500px;
+  float:left;
+}
+
+#map-pane{
+  width: 750px;
+  height: 500px;
+  #map-canvas{
+  width: 750px;
+  height: 500px;
+}
+}
+label.loc-labels {
+  width: $tp-width - 2px;
+  float: left;
+}
+
+

@@ -50,7 +50,19 @@ class ListLocations(webapp2.RequestHandler):
         else:
             raise Exception('NO User')
         self.response.write(json)
-        
+class DeleteLocations(webapp2.RequestHandler):
+    def post(self):
+        mid = self.request.get('id')
+        loc =  Location.get_by_id(int(mid))
+        res = {}
+        if loc:
+            loc.delete()
+            res['success'] = True
+        else:
+            res['success'] = False
+        json = simplejson.dumps(res)
+        self.response.write(json)
+                      
 class LocationAdmin(webapp2.RequestHandler):
     def post(self):
         locdata = {
@@ -80,7 +92,8 @@ class LocationAdmin(webapp2.RequestHandler):
         
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/add-location.html', LocationAdmin),
-                               ('/list-locations.json', ListLocations)],
+                               ('/list-locations.json', ListLocations), 
+                               ('/delete-locations.json', DeleteLocations)],
                               debug=True)
 
 def main():

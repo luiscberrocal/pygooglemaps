@@ -1,4 +1,3 @@
-
 html {
 	height: 100%
 }
@@ -10,26 +9,29 @@ body {
 }
 
 #map_canvas {
-	width: 750px; 
+	width: 750px;
 	height: 500px;
 	border: thin;
-	float: left;	
+	float: left;
 }
-#map_info{
+#map_info {
 	padding: .5em;
-	
 }
-label.loc-labels{
-	width: 10em;
+#location-form {
+	width: 202px;
 }
-#saved-locations{
+label.loc-labels {
+	width: 30px;
+	float: left;
+}
+#saved-locations {
 	width: 202px;
 	float: left;
-	}
-.location{
+}
+.location {
 	width: 200px;
 	float: left;
-	border:thin solid blue;
+	border: thin solid blue;
 	margin: 1px;
 	padding: 3px;
 }

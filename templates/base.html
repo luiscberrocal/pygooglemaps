@@ -2,16 +2,19 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Insert title here</title>
+		<title>GeoLocations 507</title>
 		<link rel="stylesheet" type="text/css" href="/css/base.css">
 		<script type="text/javascript"
 		src="http://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&sensor=false"></script>
-
+		<script type="text/javascript" charset="utf-8">
+			console.debug('Just loaded Google API')
+		</script>
 		<script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 		<script src="/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
-		{% block head %}   
+
+		{% block head %}
 		{% endblock %}
 	</head>
 	<body onload="initialize()">
@@ -21,20 +24,20 @@
 			</div>
 			<div id="user-info">
 				<div id="username">
-				  {{ username }}
+					{{ username }}
 				</div>
 			</div>
 		</div>
 		<div id="tools-pane">
-		  {% block tools %}
-		  {% endblock %}
+			{% block tools %}
+			{% endblock %}
 		</div>
 		<div id="map-pane">
-		  {% block map %}		      
-		  {% endblock %}
+			{% block map %}
+			{% endblock %}
 		</div>
 		<div id="footer-pane">
-		  Copyright
+			Copyright
 		</div>
 	</body>
 </html>

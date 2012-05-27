@@ -53,7 +53,7 @@ function updateFormDate(map) {
 		'zoom' : map.getZoom()
 	};
 	$.cookie('last-extent', JSON.stringify(lastExtent), { path: '/' });
-	$.cookie('info-test', null);
+
 
 }
 

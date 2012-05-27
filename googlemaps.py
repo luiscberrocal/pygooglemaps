@@ -19,12 +19,13 @@ class MainPage(webapp2.RequestHandler):
 
         if user:
             template = jinja_environment.get_template('map-layout.html')
+            logoff_url =users.create_logout_url(self.request.uri)
             data = {"title" : "Mi Nuevo Titulo " + user.nickname(), 
                     "GOOGLE_MAPS_KEY" : settings.GOOGLE_MAPS_KEY,
-                    "username" : user.nickname()}
+                    "username" : user.nickname(),
+                    "logoff_url": logoff_url}
             self.response.out.write(template.render(data))
-            #self.response.headers['Content-Type'] = 'text/plain'
-            #self.response.out.write('Hello, ' + user.nickname())
+            
         else:
             #self.response.out.write('Hello, Stranger' )
             self.redirect(users.create_login_url(self.request.uri))

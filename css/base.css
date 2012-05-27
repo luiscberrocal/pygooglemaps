@@ -19,7 +19,8 @@ body {
 #tools-pane {
   width: 240px;
   height: 500px;
-  float: left; }
+  float: left;
+  padding: .5em; }
 
 #map-pane {
   width: 750px;

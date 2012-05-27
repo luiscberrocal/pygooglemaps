@@ -1,5 +1,5 @@
 //utf-8
-
+// By L. Berrocal
 function deleteLocation(event) {
 	// alert("Delete " + event.data.id + " is not implemented");
 	dataString = "id=" + event.data.id

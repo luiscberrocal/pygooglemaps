@@ -4,24 +4,7 @@
 <script src="/js/jquery-locations.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	
-	$(document).ready(function() {
-	console.debug('JQuery Document ready');
-	$("#location-form").submit(function(e) {
-	e.preventDefault();
-	var dataString=$(this).serialize();
-	$("#debug-output").text(dataString);
-	$.ajax({
-	type:"POST",url:"/add-location.html",dataType:"json",data:dataString,success: function(data) {
-	alert("Saved "+data.date+" id: "+data.id);
-	},error: function(jqXHR,textStatus,errorThrown) {
-	alert("Error: "+errorThrown+"\nTextStatus: "+textStatus)
-	}
-	});
-	});
-	$.ajax({
-	type:"GET",url:"/list-locations.json",dataType:"json",success:loadLocations
-	});
-	});
+	$(document).ready(onJQueryDocumentReady);
 </script>
 {% endblock %}
 {% block tools %}

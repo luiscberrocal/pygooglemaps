@@ -81,7 +81,7 @@ class LocationAdmin(webapp2.RequestHandler):
         location.zoom = locdata['zoom']
         
         location.put()
-        locdata['id'] =  451 #location.id
+        locdata['id'] =  location.key().id()
         locdata['date'] = location.date.strftime('%Y-%m-%d %H:%M:%S')
         
         #now= datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

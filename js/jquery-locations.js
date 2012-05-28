@@ -5,7 +5,7 @@ function onJQueryDocumentReady() {
 	console.debug('JQuery Document ready');
 	$("#location-form").submit(function(e) {
 		e.preventDefault();
-		var dataString = $(this).serialize();
+		var dataString = $(this).serialize() ;
 		$("#debug-output").text(dataString);
 		$.ajax({
 			type : "POST",

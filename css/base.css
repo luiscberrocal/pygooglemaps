@@ -12,9 +12,12 @@ body {
   width: 1024px;
   height: 60px; }
   #header-pane #title {
-    font-size: 2em; }
+    font-size: 4em; }
   #header-pane #user-info {
     float: right; }
+
+.data-display {
+  font-size: 1.5em; }
 
 #tools-pane {
   width: 240px;

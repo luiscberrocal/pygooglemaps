@@ -17,13 +17,15 @@ body {
   width: $base-width;
   height: 60px;
   #title{
-    font-size: 2em;
+    font-size: 4em;
   }
   #user-info{
     float: right;
   }
 }
-
+.data-display{
+  font-size: 1.5em;
+}
 #tools-pane {
   width: $tp-width;
   height: 500px;

@@ -2,10 +2,7 @@
 {% block head %}
 <script src="/js/gl-google-maps.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/jquery-locations.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-	
-	$(document).ready(onJQueryDocumentReady);
-</script>
+<script type="text/javascript">$(document).ready(onJQueryDocumentReady);</script>
 {% endblock %}
 {% block tools %}
 <div id="map_info">
@@ -17,15 +14,15 @@
 		<label for="name" class="loc-labels">Name:</label>
 		<input id="name" name="name" type="text">
 		<br/>
-		<label for="latitude"  class="loc-labels">Latitude:</label>
-		<input id="latitude" name="latitude" type="text">
-		<br/>
-		<label for="longitude" class="loc-labels">Longitude:</label>
-		<input id="longitude" name="longitude" type="text">
-		<br/>
-		<label for="zoom" class="loc-labels">Zoom:</label>
-		<input id="zoom"  name="zoom" type="text">
-		<br/>
+		<label for="lat-display"  class="loc-labels">Latitude:</label>
+		<div id="lat-display" class="data-display"></div>
+		<label for="lng-display" class="loc-labels">Longitude:</label>
+		<div id="lng-display" class="data-display"></div>
+		<label for="zoom-display" class="loc-labels">Zoom:</label>
+		<div id="zoom-display" class="data-display"></div>
+		<input type="hidden" name="latitude" value="" id="latitude"/>
+		<input type="hidden" name="longitude" value="" id="longitude"/>
+		<input type="hidden" name="zoom" value="" id="zoom"/>
 		<div>
 			<input type="submit" value="Save Location">
 		</div>

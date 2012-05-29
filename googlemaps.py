@@ -9,6 +9,7 @@ import json
 from models import Location
 from google.appengine.ext import db
 from django.utils import simplejson
+import md5
   
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), "templates")))
@@ -64,7 +65,7 @@ class DeleteLocations(webapp2.RequestHandler):
         json = simplejson.dumps(res)
         self.response.write(json)
                       
-class LocationAdmin(webapp2.RequestHandler):
+class AddLocation(webapp2.RequestHandler):
     def post(self):
         locdata = {
             'owner': users.get_current_user().nickname(),
@@ -74,12 +75,18 @@ class LocationAdmin(webapp2.RequestHandler):
             'zoom' : int(self.request.get('zoom'))
         }
         #print locdata
-        location = Location(owner = users.get_current_user())
+        location = Location(owner = users.get_current_user(), 
+                            map_source ="google-maps", loc_type = "extent")
         location.name = locdata['name']
         location.latitude = locdata['latitude']
         location.longitude = locdata['longitude']
         location.zoom = locdata['zoom']
-        
+        #location.loc_type = "extent"
+        #location.map_source ="google-maps"
+        location.visibility = "private"
+        m = md5.new()
+        m.update(location.name)
+        location.token = m.hexdigest()
         location.put()
         locdata['id'] =  location.key().id()
         locdata['date'] = location.date.strftime('%Y-%m-%d %H:%M:%S')
@@ -92,7 +99,7 @@ class LocationAdmin(webapp2.RequestHandler):
         
         
 app = webapp2.WSGIApplication([('/', MainPage),
-                               ('/add-location.html', LocationAdmin),
+                               ('/add-location.html', AddLocation),
                                ('/list-locations.json', ListLocations), 
                                ('/delete-locations.json', DeleteLocations)],
                               debug=True)

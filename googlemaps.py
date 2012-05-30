@@ -69,7 +69,7 @@ class AddLocation(webapp2.RequestHandler):
     def post(self):
         locdata = {
             'owner': users.get_current_user().nickname(),
-            'name' : self.request.get('name'),
+            'name' : self.request.get('loc-name'),
             'latitude' : float(self.request.get('latitude')),
             'longitude' : float(self.request.get('longitude')),
             'zoom' : int(self.request.get('zoom'))

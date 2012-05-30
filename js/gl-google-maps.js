@@ -43,6 +43,7 @@ function getMapInitOptions() {
 }
 // $('body').load(initialize);
 function updateFormDate(map) {
+	$('#loc-name').attr('value',"");
 	$('#latitude').attr('value',map.getCenter().lat());
 	$('#longitude').attr('value',map.getCenter().lng());
 	$('#zoom').attr('value',map.getZoom());

@@ -37,7 +37,7 @@ class ListLocations(webapp2.RequestHandler):
         #query = db.GqlQuery('SELECT * FROM Location WHERE owner = :owner', owner = users.get_current_user().nickname())
         user = users.get_current_user()
         if user:
-            query = db.GqlQuery('SELECT * FROM Location WHERE owner = :owner', owner = user)
+            query = db.GqlQuery('SELECT * FROM Location WHERE owner = :owner ORDER BY date DESC', owner = user)
             locations = query.fetch(50)
             mlocs = []
             for loc in locations:

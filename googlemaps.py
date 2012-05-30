@@ -50,7 +50,7 @@ class ListLocations(webapp2.RequestHandler):
                               'owner' : loc.owner.nickname()})
             json = simplejson.dumps(mlocs)
         else:
-            raise Exception('NO User')
+            raise Exception('NO User loggedin')
         self.response.write(json)
 class DeleteLocations(webapp2.RequestHandler):
     def post(self):
@@ -84,9 +84,7 @@ class AddLocation(webapp2.RequestHandler):
         #location.loc_type = "extent"
         #location.map_source ="google-maps"
         location.visibility = "private"
-        m = md5.new()
-        m.update(location.name)
-        location.token = m.hexdigest()
+        location.token = buildToken(location)
         location.put()
         locdata['id'] =  location.key().id()
         locdata['date'] = location.date.strftime('%Y-%m-%d %H:%M:%S')
@@ -103,7 +101,11 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/list-locations.json', ListLocations), 
                                ('/delete-locations.json', DeleteLocations)],
                               debug=True)
-
+def buildToken(location):
+    m = md5.new()
+    m.update(location.name)
+    m.update(location.owner.nickname())
+    return m.hexdigest()
 def main():
     run_wsgi_app(app)
 

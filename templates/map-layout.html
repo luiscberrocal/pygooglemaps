@@ -6,10 +6,6 @@
 {% endblock %}
 {% block tools %}
 <div id="map_info">
-	Center: <span id="map_center">Center</span>
-	<br/>
-	Zoom: <span id="map_zoom">Zoom</span>
-	<br/>
 	<form id="location-form">
 		<label for="name" class="loc-labels">Name:</label>
 		<input id="loc-name" name="loc-name" type="text">
@@ -28,10 +24,14 @@
 		</div>
 	</form>
 </div>
-<div id="saved-locations">
+<div id="locations-pane">
 	<div class="title">
-		Locations for {{ username }}
+		Locations
 	</div>
+	<div id="saved-locations">
+
+	</div>
+
 </div>
 <div id="debug-window">
 	<div>

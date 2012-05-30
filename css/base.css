@@ -35,3 +35,16 @@ body {
 label.loc-labels {
   width: 238px;
   float: left; }
+
+#title {
+  width: 824px;
+  float: left; }
+
+div.title {
+  font-size: 1.5em; }
+
+.location {
+  font-size: 1.3em;
+  border: 1px solid #999;
+  padding: .25em;
+  margin: 0.15em; }

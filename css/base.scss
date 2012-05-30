@@ -45,5 +45,21 @@ label.loc-labels {
   width: $tp-width - 2px;
   float: left;
 }
+#location-pane{
+  
+}
 
+#title{
+  width: $base-width - 200px;
+  float: left;
+}
+div.title{
+    font-size: 1.5em;
+}
+.location{
+  font-size: 1.3em;
+  border: 1px solid #999;
+  padding: .25em;
+  margin: .15em
+}
 

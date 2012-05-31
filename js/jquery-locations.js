@@ -5,7 +5,7 @@ function onJQueryDocumentReady() {
 	console.debug('JQuery Document ready');
 	$("#location-form").submit(function(e) {
 		e.preventDefault();
-		var dataString = $(this).serialize() ;
+		var dataString = $(this).serialize();
 		$("#debug-output").text(dataString);
 		$.ajax({
 			type : "POST",
@@ -13,19 +13,29 @@ function onJQueryDocumentReady() {
 			dataType : "json",
 			data : dataString,
 			success : function(data) {
-				//alert("Saved " + data.date + " id: " + data.id);
-				//locationDiv = buildLocationDiv(data);
+				// alert("Saved " + data.date + " id: " + data.id);
+				// locationDiv = buildLocationDiv(data);
 				getLocationsFromBackend();
-				
+
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
 				alert("Error: " + errorThrown + "\nTextStatus: " + textStatus)
 			}
 		});
+		
 	});
 	getLocationsFromBackend();
+	
+	$("#dialog-message").dialog({
+		modal : true,
+		buttons : {
+			Ok : function() {
+				$(this).dialog("close");
+			}
+		}
+	});
 }
-function getLocationsFromBackend(){
+function getLocationsFromBackend() {
 	$.ajax({
 		type : "GET",
 		url : "/list-locations.json",

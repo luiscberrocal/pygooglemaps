@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>GeoLocations 507</title>
 		<link rel="stylesheet" type="text/css" href="/css/base.css">
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
 		<script type="text/javascript"
 		src="http://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&sensor=false"></script>
 		<script type="text/javascript" charset="utf-8">
@@ -12,6 +13,7 @@
 		<script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+		
 		<script src="/js/json2.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
 
@@ -40,8 +42,11 @@
 			{% block map %}
 			{% endblock %}
 		</div>
+		
 		<div id="footer-pane">
 			Copyright
 		</div>
+		{% block hidden_pane %}
+		{% endblock %}
 	</body>
 </html>

@@ -84,4 +84,5 @@ function placeMarker(location) {
 		position : location,
 		map : map
 	});
+	$("#dialog-message").dialog('open');
 }

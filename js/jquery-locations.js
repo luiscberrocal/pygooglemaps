@@ -30,9 +30,29 @@ function onJQueryDocumentReady() {
 		modal : true,
 		autoOpen: false,
 		buttons : {
+			"Save Point" : function(){
+				var dataString = $("#point-form").serialize();
+				//$("#debug-output").text(dataString);
+				$.ajax({
+					type : "POST",
+					url : "/add-point.html",
+					dataType : "json",
+					data : dataString,
+					success : function(data) {
+						// alert("Saved " + data.date + " id: " + data.id);
+						// locationDiv = buildLocationDiv(data);
+						getLocationsFromBackend();
+
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						alert("Error: " + errorThrown + "\nTextStatus: " + textStatus)
+					}
+				});
+			},
 			Cancel : function() {
 				$(this).dialog("close");
 			}
+			
 		}
 	});
 }

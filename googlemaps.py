@@ -14,6 +14,9 @@ import md5
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), "templates")))
     
+
+    
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -41,13 +44,7 @@ class ListLocations(webapp2.RequestHandler):
             locations = query.fetch(50)
             mlocs = []
             for loc in locations:
-                mlocs.append({'id' : loc.key().id(),
-                              'date': loc.date.strftime('%Y-%m-%d %H:%M:%S'),
-                              'name': loc.name, 
-                              'latitude' : loc.latitude,
-                              'longitude' :loc.longitude,
-                              'zoom' :loc.zoom,
-                              'owner' : loc.owner.nickname()})
+                mlocs.append(loc.toDictionary())
             json = simplejson.dumps(mlocs)
         else:
             raise Exception('NO User loggedin')
@@ -64,48 +61,48 @@ class DeleteLocations(webapp2.RequestHandler):
             res['success'] = False
         json = simplejson.dumps(res)
         self.response.write(json)
-                      
+
+def add_location(request, loc_type, map_source ="google-maps", visibility = "private"):
+    location = Location(owner = users.get_current_user(), 
+                            map_source =map_source, loc_type = loc_type)
+    location.visibility = visibility
+    
+    if loc_type == "extent":
+        location.name = request.get('loc-name')
+        location.latitude = float(request.get('latitude'))
+        location.longitude =float(request.get('longitude'))
+        location.zoom = int(request.get('zoom'))
+    elif loc_type == "point":
+        location.name = request.get('point-name')
+        location.latitude = float(request.get('latitude-point'))
+        location.longitude =float(request.get('longitude-point'))
+        location.zoom = int(request.get('zoom-point'))
+    tkn = location.buildToken()
+    location.token = tkn
+        
+    location.put()
+    return location.toJSON()
+        
+        
+        
+
 class AddLocation(webapp2.RequestHandler):
     def post(self):
-        locdata = {
-            'owner': users.get_current_user().nickname(),
-            'name' : self.request.get('loc-name'),
-            'latitude' : float(self.request.get('latitude')),
-            'longitude' : float(self.request.get('longitude')),
-            'zoom' : int(self.request.get('zoom'))
-        }
-        #print locdata
-        location = Location(owner = users.get_current_user(), 
-                            map_source ="google-maps", loc_type = "extent")
-        location.name = locdata['name']
-        location.latitude = locdata['latitude']
-        location.longitude = locdata['longitude']
-        location.zoom = locdata['zoom']
-        #location.loc_type = "extent"
-        #location.map_source ="google-maps"
-        location.visibility = "private"
-        location.token = buildToken(location)
-        location.put()
-        locdata['id'] =  location.key().id()
-        locdata['date'] = location.date.strftime('%Y-%m-%d %H:%M:%S')
+        json = add_location(self.request, "extent")
+        self.response.out.write(json)
         
-        #now= datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+class AddPoint(webapp2.RequestHandler):
+    def post(self):
+        json = add_location(self.request, "point")
+        self.response.out.write(json)
                 
-        #json_data = {"status" : "Saved", 'date' : now}
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(json.dumps(locdata))
-        
-        
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/add-location.html', AddLocation),
                                ('/list-locations.json', ListLocations), 
-                               ('/delete-locations.json', DeleteLocations)],
+                               ('/delete-locations.json', DeleteLocations),
+                               ('/add-point.html', AddPoint),],
                               debug=True)
-def buildToken(location):
-    m = md5.new()
-    m.update(location.name)
-    m.update(location.owner.nickname())
-    return m.hexdigest()
+
 def main():
     run_wsgi_app(app)
 

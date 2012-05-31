@@ -1,4 +1,5 @@
 var map;
+var markersArray =[];
 
 function initialize() {
 	console.log('Google Maps Init');
@@ -95,5 +96,6 @@ function placeMarker(location) {
 		map : map
 	});
 	updatePointForm(map, marker);
+	markersArray.push(marker);
 	$("#dialog-message").dialog('open');
 }

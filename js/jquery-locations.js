@@ -39,13 +39,11 @@ function onJQueryDocumentReady() {
 					dataType : "json",
 					data : dataString,
 					success : function(data) {
-						// alert("Saved " + data.date + " id: " + data.id);
-						// locationDiv = buildLocationDiv(data);
 						getLocationsFromBackend();
 
 					},
 					error : function(jqXHR, textStatus, errorThrown) {
-						alert("Error: " + errorThrown + "\nTextStatus: " + textStatus)
+						alert("Error: " + errorThrown + "\nTextStatus: " + textStatus);
 					}
 				});
 			},
@@ -83,10 +81,18 @@ function deleteLocation(event) {
 	});
 }
 function zoomToLocation(event) {
-	// alert(event.data.name);
+	console.debug("Zoom to Location Type: " + event.data.loc_type);
 	center = new google.maps.LatLng(event.data.latitude, event.data.longitude)
 	map.setCenter(center);
 	map.setZoom(event.data.zoom);
+	if (event.data.loc_type == "point"){
+		for(var i=0; i < markersArray.length; i++){
+			if (markersArray[i].getPosition().lat() == event.data.latitude &&
+				markersArray[i].getPosition().lng() == event.data.longitude){
+				markersArray[i].setMap(map);
+			}
+		}
+	}
 }
 
 function buildLocationDiv(data) {
@@ -109,7 +115,8 @@ function buildLocationDiv(data) {
 		name : data.name,
 		latitude : data.latitude,
 		longitude : data.longitude,
-		zoom : data.zoom
+		zoom : data.zoom,
+		loc_type: data.loc_type
 	}, zoomToLocation);
 	deleteButton = $('<button/>', {
 		'class' : 'delete'
@@ -126,8 +133,16 @@ function buildLocationDiv(data) {
 }
 function loadLocations(data) {
 	$('#saved-locations').empty()
+	markersArray = [];
 	for ( var i = 0; i < data.length; i++) {
 		locationDiv = buildLocationDiv(data[i])
 		$('#saved-locations').append(locationDiv)
+		if (data[i].loc_type == "point"){
+			var marker = new google.maps.Marker({
+				position : new google.maps.LatLng(data[i].latitude, data[i].longitude)
+			});
+			
+			markersArray.push(marker);
+		}
 	}
 }

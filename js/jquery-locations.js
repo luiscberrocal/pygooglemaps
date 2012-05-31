@@ -28,8 +28,9 @@ function onJQueryDocumentReady() {
 	
 	$("#dialog-message").dialog({
 		modal : true,
+		autoOpen: false,
 		buttons : {
-			Ok : function() {
+			Cancel : function() {
 				$(this).dialog("close");
 			}
 		}

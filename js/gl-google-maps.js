@@ -58,9 +58,19 @@ function updateFormDate(map) {
 		'zoom' : map.getZoom()
 	};
 	$.cookie('last-extent', JSON.stringify(lastExtent), { path: '/' });
-
-
 }
+
+function updatePointForm(map, marker) {
+	$('#point-name').attr('value',"");
+	$('#latitude-point').attr('value',marker.getPosition().lat());
+	$('#longitude-point').attr('value',marker.getPosition().lng());
+	$('#zoom-point').attr('value',map.getZoom());
+	
+	$("#lat-display-point").text(displayDMS(marker.getPosition().lat(), 'lat'));
+	$("#lng-display-point").text(displayDMS(marker.getPosition().lng(), 'lng'));
+	$("#zoom-display-point").text(map.getZoom());
+}
+
 function displayDMS(deg, type){
 	c =" ";
 	if (deg < 0 && type == 'lat'){
@@ -84,5 +94,6 @@ function placeMarker(location) {
 		position : location,
 		map : map
 	});
+	updatePointForm(map, marker);
 	$("#dialog-message").dialog('open');
 }

@@ -45,13 +45,20 @@
 <div id="map-canvas" ></div>
 {% endblock %}
 {% block hidden_pane %}
-<div id="dialog-message" title="Download complete">
-	<p>
-		<span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
-		Your files have downloaded successfully into the My Downloads folder.
-	</p>
-	<p>
-		Currently using <b>36% of your storage space</b>.
-	</p>
+<div id="dialog-message" title="Add Point">
+	<form id="point-form">
+		<label for="point-name" >Name:</label>
+		<input id="point-name" name="point-name" type="text">
+		<br/>
+		<label for="lat-display-point" >Latitude:</label>
+		<div id="lat-display-point" ></div>
+		<label for="lng-display-point" >Longitude:</label>
+		<div id="lng-display-point" ></div>
+		<label for="zoom-display-point" >Zoom:</label>
+		<div id="zoom-display-point" ></div>
+		<input type="hidden" name="latitude-point" value="" id="latitude"/>
+		<input type="hidden" name="longitude-point" value="" id="longitude"/>
+		<input type="hidden" name="zoom-point" value="" id="zoom"/>
+	</form>
 </div>
 {% endblock %}

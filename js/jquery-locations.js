@@ -46,6 +46,7 @@ function onJQueryDocumentReady() {
 						alert("Error: " + errorThrown + "\nTextStatus: " + textStatus);
 					}
 				});
+				$(this).dialog("close");
 			},
 			Cancel : function() {
 				$(this).dialog("close");
@@ -73,12 +74,21 @@ function deleteLocation(event) {
 		success : function(data) {
 			var ename = "#location_" + event.data.id;
 			$(ename).remove();
-			// alert("Deleted " + data.date + " id: " + data.id);
+			deleteMapOnLatLong(event.data.latitude, event.data.longitude)
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			alert("Error: " + errorThrown + "\nTextStatus: " + textStatus)
 		}
 	});
+}
+
+function deleteMapOnLatLong(latitude, longitude){
+	for(var i=0; i < markersArray.length; i++){
+		if (markersArray[i].getPosition().lat() == latitude &&
+			markersArray[i].getPosition().lng() == longitude){
+			markersArray[i].setMap(null);
+		}
+	}
 }
 function zoomToLocation(event) {
 	console.debug("Zoom to Location Type: " + event.data.loc_type);
@@ -100,9 +110,12 @@ function buildLocationDiv(data) {
 		'class' : 'location',
 		'id' : 'location_' + data.id
 	});
+
 	locationNameDiv = $('<div/>', {
 		'class' : 'location-name'
 	});
+	loc_type_class = "loc-type-" + data.loc_type;
+	locationNameDiv.addClass(loc_type_class);
 	locationNameDiv.text(data.name);
 	locationDiv.append(locationNameDiv)
 	// Zoom Button
@@ -124,7 +137,9 @@ function buildLocationDiv(data) {
 	deleteButton.text('Delete');
 	deleteButton.bind('click', {
 		id : data.id,
-		name : data.name
+		name : data.name,
+		latitude : data.latitude,
+		longitude : data.longitude
 	}, deleteLocation);
 	locationDiv.append(locationNameDiv);
 	locationDiv.append(zoomButton);

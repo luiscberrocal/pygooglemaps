@@ -46,5 +46,25 @@ div.title {
 .location {
   font-size: 1.3em;
   border: 1px solid #999;
-  padding: .25em;
+  padding: 0.25em;
   margin: 0.15em; }
+  .location .location-name {
+    padding-left: 18px;
+    margin-left: 5px;
+    font-size: 1.3em;
+    padding-bottom: 0.5em;
+    width: 195px; }
+
+.loc-type-point {
+  background-image: url("../images/marker.png");
+  height: 16px;
+  width: 16px;
+  background-position: 0 0px;
+  background-repeat: no-repeat; }
+
+.loc-type-extent {
+  background-image: url("../images/extent.png");
+  height: 16px;
+  width: 16px;
+  background-position: 0 0px;
+  background-repeat: no-repeat; }

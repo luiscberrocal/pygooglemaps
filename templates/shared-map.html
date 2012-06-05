@@ -2,6 +2,22 @@
 {% block head %}
 <script src="/js/gl-google-maps.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/jquery-locations.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+		$(document).ready(function() {
+	var latlng = new google.maps.LatLng({{ latitude }}, {{ longitude }});
+	var myOptions = {
+	center : latlng,
+	zoom : {{ zoom }},
+	mapTypeId : google.maps.MapTypeId.ROADMAP
+	};
+	var shared_map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+	var marker = new google.maps.Marker({
+	position : latlng,
+	map : shared_map,
+	title : "{{ name }}"
+	});
+	});</script>
 {% endblock %}
 {% block tools %}
 <div id="debug-window">
@@ -10,6 +26,8 @@
 	</div>
 	<div id="debug-output">
 		Token: {{ token }}
+		<br/>
+		Valid: {{ valid }}
 	</div>
 </div>
 

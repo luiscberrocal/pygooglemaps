@@ -205,7 +205,7 @@ function getMarkerInLatLong(latitude, longitude) {
 function addMarkerToMap(data) {
 	existingMarker = getMarkerInLatLong(data.latitude, data.longitude)[0];
 	if (existingMarker == null) {
-		latlng = new google.maps.LatLng(data.latitude, data.longitude);
+		var latlng = new google.maps.LatLng(data.latitude, data.longitude);
 		var marker = new google.maps.Marker({
 			position : latlng,
 			map : map,

@@ -77,9 +77,9 @@ function deleteLocation(event) {
 		dataType : "json",
 		data : dataString,
 		success : function(data) {
-			var ename = "#location_" + event.data.id;
+			var ename = "#location_" + data.id;
 			$(ename).remove();
-			deleteMapOnLatLong(event.data.latitude, event.data.longitude)
+			deleteMapOnLatLong(data.latitude, data.longitude)
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			alert("Error: " + errorThrown + "\nTextStatus: " + textStatus)
@@ -89,17 +89,17 @@ function deleteLocation(event) {
 
 function deleteMapOnLatLong(latitude, longitude) {
 	existingMarkerData = getMarkerInLatLong(latitude, longitude);
-	if (existingMarkerData[0] != null){
+	if (existingMarkerData[0] != null) {
 		existingMarkerData[0].setMap(null);
 		delete markersArray[existingMarkerData[1]];
-		markersArray.splice(existingMarkerData[1],1);
+		markersArray.splice(existingMarkerData[1], 1);
 	}
-//	for ( var i = 0; i < markersArray.length; i++) {
-//		if (markersArray[i].getPosition().lat() == latitude
-//				&& markersArray[i].getPosition().lng() == longitude) {
-//			markersArray[i].setMap(null);
-//		}
-//	}
+	// for ( var i = 0; i < markersArray.length; i++) {
+	// if (markersArray[i].getPosition().lat() == latitude
+	// && markersArray[i].getPosition().lng() == longitude) {
+	// markersArray[i].setMap(null);
+	// }
+	// }
 }
 function zoomToLocation(event) {
 	console.debug("Zoom to Location Type: " + event.data.loc_type);
@@ -117,20 +117,21 @@ function zoomToLocation(event) {
 }
 
 function buildLocationDiv(data) {
-	locationDiv = $('<div/>', {
+	var divId = 'location_' + data.id;
+	var locationDiv = $('<div/>', {
 		'class' : 'location',
-		'id' : 'location_' + data.id
+		'id' : divId
 	});
 
-	locationNameDiv = $('<div/>', {
+	var locationNameDiv = $('<div/>', {
 		'class' : 'location-name'
 	});
-	loc_type_class = "loc-type-" + data.loc_type;
+	var loc_type_class = "loc-type-" + data.loc_type;
 	locationNameDiv.addClass(loc_type_class);
 	locationNameDiv.text(data.name);
 	locationDiv.append(locationNameDiv)
 	// Zoom Button
-	zoomButton = $('<button/>', {
+	var zoomButton = $('<button/>', {
 		'class' : 'zoom'
 	});
 	zoomButton.text('Zoom');
@@ -142,7 +143,7 @@ function buildLocationDiv(data) {
 		zoom : data.zoom,
 		loc_type : data.loc_type
 	}, zoomToLocation);
-	deleteButton = $('<button/>', {
+	var deleteButton = $('<button/>', {
 		'class' : 'delete'
 	});
 	deleteButton.text('Delete');
@@ -155,6 +156,20 @@ function buildLocationDiv(data) {
 	locationDiv.append(locationNameDiv);
 	locationDiv.append(zoomButton);
 	locationDiv.append(deleteButton);
+
+	deleteButton.button({
+		icons : {
+			primary : "ui-icon-trash"
+		},
+		text : false
+	});
+	zoomButton.button({
+		icons : {
+			primary : "ui-icon-zoomin"
+		},
+		text : false
+	});
+
 	return locationDiv;
 }
 function loadLocations(data) {
@@ -184,7 +199,7 @@ function getMarkerInLatLong(latitude, longitude) {
 			break;
 		}
 	}
-	return [marker, position];
+	return [ marker, position ];
 }
 function addMarkerToMap(data) {
 	existingMarker = getMarkerInLatLong(data.latitude, data.longitude)[0];
@@ -196,7 +211,7 @@ function addMarkerToMap(data) {
 			title : data.name
 		});
 		markersArray.push(marker);
-	}else{
+	} else {
 		existingMarker.setMap(map);
 	}
 

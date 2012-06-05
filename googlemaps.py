@@ -55,6 +55,7 @@ class DeleteLocations(webapp2.RequestHandler):
         loc =  Location.get_by_id(int(mid))
         res = {}
         if loc:
+            res = loc.toDictionary()
             loc.delete()
             res['success'] = True
         else:

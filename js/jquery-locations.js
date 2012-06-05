@@ -116,7 +116,9 @@ function zoomToLocation(event) {
 		}
 	}
 }
-
+function shareLocation(event){
+	alert('token: http://' +  window.location.host + "/shared/" + event.data.token);
+}
 function buildLocationDiv(data) {
 	var divId = 'location_' + data.id;
 	var locationDiv = $('<div/>', {
@@ -157,7 +159,17 @@ function buildLocationDiv(data) {
 	locationDiv.append(locationNameDiv);
 	locationDiv.append(zoomButton);
 	locationDiv.append(deleteButton);
-
+	if (data.loc_type =="point"){
+		var shareButton = $('<button/>', {
+			'class' : 'share'
+		});
+		shareButton.text('Share');
+		shareButton.bind('click', {
+			id : data.id,
+			token : data.token
+		}, shareLocation);
+		locationDiv.append(shareButton);
+	}
 	deleteButton.button({
 		icons : {
 			primary : "ui-icon-trash"

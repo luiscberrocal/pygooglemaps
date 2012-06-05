@@ -88,12 +88,18 @@ function deleteLocation(event) {
 }
 
 function deleteMapOnLatLong(latitude, longitude) {
-	for ( var i = 0; i < markersArray.length; i++) {
-		if (markersArray[i].getPosition().lat() == latitude
-				&& markersArray[i].getPosition().lng() == longitude) {
-			markersArray[i].setMap(null);
-		}
+	existingMarkerData = getMarkerInLatLong(latitude, longitude);
+	if (existingMarkerData[0] != null){
+		existingMarkerData[0].setMap(null);
+		delete markersArray[existingMarkerData[1]];
+		markersArray.splice(existingMarkerData[1],1);
 	}
+//	for ( var i = 0; i < markersArray.length; i++) {
+//		if (markersArray[i].getPosition().lat() == latitude
+//				&& markersArray[i].getPosition().lng() == longitude) {
+//			markersArray[i].setMap(null);
+//		}
+//	}
 }
 function zoomToLocation(event) {
 	console.debug("Zoom to Location Type: " + event.data.loc_type);
@@ -170,6 +176,7 @@ function loadLocations(data) {
 }
 function getMarkerInLatLong(latitude, longitude) {
 	var marker = null;
+	var position = -1;
 	for ( var i = 0; i < markersArray.length; i++) {
 		if (markersArray[i].getPosition().lat() == latitude
 				&& markersArray[i].getPosition().lng() == longitude) {
@@ -177,10 +184,10 @@ function getMarkerInLatLong(latitude, longitude) {
 			break;
 		}
 	}
-	return marker;
+	return [marker, position];
 }
 function addMarkerToMap(data) {
-	existingMarker = getMarkerInLatLong(data.latitude, data.longitude);
+	existingMarker = getMarkerInLatLong(data.latitude, data.longitude)[0];
 	if (existingMarker == null) {
 		latlng = new google.maps.LatLng(data.latitude, data.longitude);
 		var marker = new google.maps.Marker({

@@ -3,6 +3,7 @@
 
 function onJQueryDocumentReady() {
 	console.debug('JQuery Document ready');
+	initializeMap()
 	$("#location-form").submit(function(e) {
 		e.preventDefault();
 		var dataString = $(this).serialize();

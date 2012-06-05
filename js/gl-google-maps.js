@@ -1,7 +1,7 @@
 var map;
 var markersArray =[];
 
-function initialize() {
+function initializeMap() {
 	console.log('Google Maps Init');
 	var myOptions = getMapInitOptions();
 	map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);

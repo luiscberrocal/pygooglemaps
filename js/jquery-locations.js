@@ -22,38 +22,43 @@ function onJQueryDocumentReady() {
 				alert("Error: " + errorThrown + "\nTextStatus: " + textStatus)
 			}
 		});
-		
+
 	});
 	getLocationsFromBackend();
-	
-	$("#dialog-message").dialog({
-		modal : true,
-		autoOpen: false,
-		buttons : {
-			"Save Point" : function(){
-				var dataString = $("#point-form").serialize();
-				//$("#debug-output").text(dataString);
-				$.ajax({
-					type : "POST",
-					url : "/add-point.html",
-					dataType : "json",
-					data : dataString,
-					success : function(data) {
-						getLocationsFromBackend();
 
+	$("#dialog-message").dialog(
+			{
+				modal : true,
+				autoOpen : false,
+				buttons : {
+					"Save Point" : function() {
+						var dataString = $("#point-form").serialize();
+						// $("#debug-output").text(dataString);
+						$.ajax({
+							type : "POST",
+							url : "/add-point.html",
+							dataType : "json",
+							data : dataString,
+							success : function(data) {
+								// getLocationsFromBackend();
+								addMarkerToMap(data);
+								locdiv = buildLocationDiv(data);
+								$('#saved-locations').prepend(locdiv);
+
+							},
+							error : function(jqXHR, textStatus, errorThrown) {
+								alert("Error: " + errorThrown
+										+ "\nTextStatus: " + textStatus);
+							}
+						});
+						$(this).dialog("close");
 					},
-					error : function(jqXHR, textStatus, errorThrown) {
-						alert("Error: " + errorThrown + "\nTextStatus: " + textStatus);
+					Cancel : function() {
+						$(this).dialog("close");
 					}
-				});
-				$(this).dialog("close");
-			},
-			Cancel : function() {
-				$(this).dialog("close");
-			}
-			
-		}
-	});
+
+				}
+			});
 }
 function getLocationsFromBackend() {
 	$.ajax({
@@ -82,10 +87,10 @@ function deleteLocation(event) {
 	});
 }
 
-function deleteMapOnLatLong(latitude, longitude){
-	for(var i=0; i < markersArray.length; i++){
-		if (markersArray[i].getPosition().lat() == latitude &&
-			markersArray[i].getPosition().lng() == longitude){
+function deleteMapOnLatLong(latitude, longitude) {
+	for ( var i = 0; i < markersArray.length; i++) {
+		if (markersArray[i].getPosition().lat() == latitude
+				&& markersArray[i].getPosition().lng() == longitude) {
 			markersArray[i].setMap(null);
 		}
 	}
@@ -95,10 +100,10 @@ function zoomToLocation(event) {
 	center = new google.maps.LatLng(event.data.latitude, event.data.longitude)
 	map.setCenter(center);
 	map.setZoom(event.data.zoom);
-	if (event.data.loc_type == "point"){
-		for(var i=0; i < markersArray.length; i++){
-			if (markersArray[i].getPosition().lat() == event.data.latitude &&
-				markersArray[i].getPosition().lng() == event.data.longitude){
+	if (event.data.loc_type == "point") {
+		for ( var i = 0; i < markersArray.length; i++) {
+			if (markersArray[i].getPosition().lat() == event.data.latitude
+					&& markersArray[i].getPosition().lng() == event.data.longitude) {
 				markersArray[i].setMap(map);
 			}
 		}
@@ -129,7 +134,7 @@ function buildLocationDiv(data) {
 		latitude : data.latitude,
 		longitude : data.longitude,
 		zoom : data.zoom,
-		loc_type: data.loc_type
+		loc_type : data.loc_type
 	}, zoomToLocation);
 	deleteButton = $('<button/>', {
 		'class' : 'delete'
@@ -151,13 +156,41 @@ function loadLocations(data) {
 	markersArray = [];
 	for ( var i = 0; i < data.length; i++) {
 		locationDiv = buildLocationDiv(data[i])
-		$('#saved-locations').append(locationDiv)
-		if (data[i].loc_type == "point"){
-			var marker = new google.maps.Marker({
-				position : new google.maps.LatLng(data[i].latitude, data[i].longitude)
-			});
-			
-			markersArray.push(marker);
+		$('#saved-locations').append(locationDiv);
+		if (data[i].loc_type == "point") {
+			addMarkerToMap(data[i]);
+			// var marker = new google.maps.Marker({
+			// position : new google.maps.LatLng(data[i].latitude,
+			// data[i].longitude)
+			// });
+			//
+			// markersArray.push(marker);
 		}
 	}
+}
+function getMarkerInLatLong(latitude, longitude) {
+	var marker = null;
+	for ( var i = 0; i < markersArray.length; i++) {
+		if (markersArray[i].getPosition().lat() == latitude
+				&& markersArray[i].getPosition().lng() == longitude) {
+			marker = markersArray[i];
+			break;
+		}
+	}
+	return marker;
+}
+function addMarkerToMap(data) {
+	existingMarker = getMarkerInLatLong(data.latitude, data.longitude);
+	if (existingMarker == null) {
+		latlng = new google.maps.LatLng(data.latitude, data.longitude);
+		var marker = new google.maps.Marker({
+			position : latlng,
+			map : map,
+			title : data.name
+		});
+		markersArray.push(marker);
+	}else{
+		existingMarker.setMap(map);
+	}
+
 }

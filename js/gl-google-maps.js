@@ -61,15 +61,15 @@ function updateFormDate(map) {
 	$.cookie('last-extent', JSON.stringify(lastExtent), { path: '/' });
 }
 
-function updatePointForm(map, marker) {
+function updatePointForm(latlng,zoom) {
 	$('#point-name').attr('value',"");
-	$('#latitude-point').attr('value',marker.getPosition().lat());
-	$('#longitude-point').attr('value',marker.getPosition().lng());
-	$('#zoom-point').attr('value',map.getZoom());
+	$('#latitude-point').attr('value',latlng.lat());
+	$('#longitude-point').attr('value',latlng.lng());
+	$('#zoom-point').attr('value',zoom);
 	
-	$("#lat-display-point").text(displayDMS(marker.getPosition().lat(), 'lat'));
-	$("#lng-display-point").text(displayDMS(marker.getPosition().lng(), 'lng'));
-	$("#zoom-display-point").text(map.getZoom());
+	$("#lat-display-point").text(displayDMS(latlng.lat(), 'lat'));
+	$("#lng-display-point").text(displayDMS(latlng.lng(), 'lng'));
+	$("#zoom-display-point").text(zoom);
 }
 
 function displayDMS(deg, type){
@@ -91,11 +91,11 @@ function displayDMS(deg, type){
 	
 }
 function placeMarker(location) {
-	var marker = new google.maps.Marker({
-		position : location,
-		map : map
-	});
-	updatePointForm(map, marker);
-	markersArray.push(marker);
+//	var marker = new google.maps.Marker({
+//		position : location,
+//		map : map
+//	});
+	updatePointForm(location, map.getZoom());
+//	markersArray.push(marker);
 	$("#dialog-message").dialog('open');
 }

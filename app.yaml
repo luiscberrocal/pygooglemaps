@@ -10,6 +10,8 @@ handlers:
   static_dir: css
 - url: /images
   static_dir: images
+- url: /shared/.*
+  script: sharedmap.py
 - url: /.*
   script: googlemaps.py
 libraries:

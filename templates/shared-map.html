@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block head %}
+<script src="/js/gl-google-maps.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/jquery-locations.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+{% block tools %}
+<div id="debug-window">
+	<div>
+		Debug Windows
+	</div>
+	<div id="debug-output">
+		Token: {{ token }}
+	</div>
+</div>
+
+{% endblock %}
+{% block map %}
+<div id="map-canvas" ></div>
+{% endblock %}
+
